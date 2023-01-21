@@ -1,10 +1,25 @@
+from datetime import datetime
 import pandas as pd
 import numpy as np
 
 
-def load_input_file(filepath: str = "prety.txt"):
-    colnames = ["nr", "length"]
-    return pd.read_csv(filepath, sep=' ', names=colnames, index_col="nr")
+def load_input_file(filepath: str = "prety.txt") -> pd.DataFrame:
+    column_names = ["nr", "length"]
+    return pd.read_csv(filepath, sep=' ', names=column_names, index_col="nr")
+
+
+def generate_input_file(filepath: str, n: int):
+    with open(filepath, "w+") as file:
+        for i in range(n):
+            file.write(f"{i + 1} {round(50 * np.random.rand(), 2)}\n")
+
+
+def save_solution_to_file(solution: np.ndarray, filepath: str | None = None) -> None:
+    if filepath is None:
+        filepath = "Rogowski_output_" \
+                   + datetime.now().__str__().replace(" ", "_").replace(".", "_").replace(":", "_") \
+                   + ".txt"
+    np.savetxt(filepath, solution, fmt="%i", delimiter="\n")
 
 
 def can_build_triangle(a: float, b: float, c: float) -> bool:
