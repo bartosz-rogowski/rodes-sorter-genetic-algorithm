@@ -14,7 +14,7 @@ def generate_input_file(filepath: str, n: int):
             file.write(f"{i + 1} {round(50 * np.random.rand(), 2)}\n")
 
 
-def save_solution_to_file(solution: np.ndarray, filepath: str | None = None) -> None:
+def save_solution_to_file(solution: np.ndarray, filepath=None) -> None:
     if filepath is None:
         filepath = "Rogowski_output_" \
                    + datetime.now().__str__().replace(" ", "_").replace(".", "_").replace(":", "_") \

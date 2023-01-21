@@ -37,20 +37,22 @@ def main(filepath: str = "prety.txt"):
     return triangles, std_dev
 
 
-def run_main_n_times(repeats: int, plot_stats: bool = True):
+def run_main_n_times(repeats: int, plot_stats: bool = True, filepath: str = "prety.txt"):
+    rodes_df: pd.DataFrame = load_input_file(filepath)
+    n: int = len(rodes_df)
     triangles_list = np.zeros(shape=(repeats,), dtype="int")
     st_dev_list = np.zeros(shape=(repeats,),)
     for i in range(repeats):
-        triangles, std_dev = main()
+        triangles, std_dev = main(filepath)
         triangles_list[i] = triangles
         st_dev_list[i] = std_dev
         print()
     if plot_stats:
         plt.figure(figsize=(8, 8))
         plt.scatter(triangles_list, st_dev_list, marker='x')
-        plt.title("najlepsze rozwiązania z 10 uruchomień")
+        plt.title(f"najlepsze rozwiązania z {repeats} uruchomień")
         plt.xlabel("liczba utworzonych trójkątów")
-        plt.xlim((-0.5, 300//3+0.5))
+        plt.xlim((-0.5, n//3+0.5))
         plt.ylabel("odchylenie")
         plt.grid()
         plt.show()
@@ -59,8 +61,8 @@ def run_main_n_times(repeats: int, plot_stats: bool = True):
 if __name__ == "__main__":
     warnings.filterwarnings("ignore")
     start_time = time.perf_counter()
-    main()
-    # run_main_n_times(repeats=10, plot_stats=True)
+    # main(filepath="myinput_300.txt")
+    run_main_n_times(repeats=5, plot_stats=True, filepath="myinput_300.txt")
     end_time = time.perf_counter()
     print(f"Program executed in {(end_time - start_time):.2f} seconds")
     plt.show()
