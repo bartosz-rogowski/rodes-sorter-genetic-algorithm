@@ -44,7 +44,7 @@ class GeneticAlgorithm:
             # print(f"{triangles = }, {st_dev = }, {areas.mean() = }")
             st_dev = 100_000 if np.isnan(st_dev) or np.isclose(st_dev, 0.) \
                 else st_dev
-            fitness = (3*triangles/self.n + np.tanh(10. / st_dev)) / 2.
+            fitness = 0.5 * (3*triangles/self.n + np.tanh(10. / st_dev))
             return fitness
         return calculate_fitness
 
