@@ -29,7 +29,7 @@ def main(filepath: str):
         rodes_lengths=rodes_lengths,
         num_generations=200,
         num_parents_mating=50,
-        sol_per_pop=100,
+        sol_per_pop=200,
         num_genes=n,
         gene_type=np.int16,
         mutation_probability=5e-2,
@@ -37,6 +37,7 @@ def main(filepath: str):
         crossover_type=partially_matched_crossover,
         mutation_type="swap",
         allow_duplicate_genes=False,
+        keep_elitism=10,
     )
 
     genetic_algorithm.run()
@@ -78,8 +79,8 @@ def run_main_n_times(repeats: int, filepath: str, plot_stats: bool = True):
 if __name__ == "__main__":
     warnings.filterwarnings("ignore")
     start_time = time.perf_counter()
-    # input_file: str = "prety.txt"
-    input_file: str = "inputs/myinput_300.txt"
+    input_file: str = "prety.txt"
+    # input_file: str = "inputs/prety1.txt"
 
     main(filepath=input_file)
     # run_main_n_times(repeats=10, filepath=input_file, plot_stats=True)
