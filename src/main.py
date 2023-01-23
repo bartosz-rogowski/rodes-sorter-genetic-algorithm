@@ -8,7 +8,18 @@ from tools import load_input_file, get_stats_of_solution, \
 from genetic_algorithm import GeneticAlgorithm
 
 
-def main(filepath: str = "prety.txt"):
+def main(filepath: str):
+    """Main function containing whole program's logic:
+        - loads input file
+        - prepares genetic algorithm
+        - runs it
+        - prints stats of the best solution on the console
+        - saves the best solution to the file
+
+    :param filepath: localisation of an input file
+    :return: tuple containing number of triangles created
+        and standard deviation of areas of created triangles
+    """
     rodes_df: pd.DataFrame = load_input_file(filepath)
     n: int = len(rodes_df)
     assert n >= 3, "Liczba prętów musi być większa niż 2"
@@ -33,11 +44,17 @@ def main(filepath: str = "prety.txt"):
     print(f"{best_solution_fitness = }")
     triangles, std_dev, _ = get_stats_of_solution(best_solution, rodes_lengths)
     genetic_algorithm.plot_fitness_function()
-    save_solution_to_file(best_solution)
+    save_solution_to_file(best_solution, filepath="output.txt")
     return triangles, std_dev
 
 
-def run_main_n_times(repeats: int, plot_stats: bool = True, filepath: str = "prety.txt"):
+def run_main_n_times(repeats: int, filepath: str, plot_stats: bool = True):
+    """Runs main function `n` times and shows scatter plot of solutions
+
+    :param repeats: number of times to repeat
+    :param filepath: localisation of an input file
+    :param plot_stats: if `True` shows scatter plot of solutions
+    """
     rodes_df: pd.DataFrame = load_input_file(filepath)
     n: int = len(rodes_df)
     triangles_list = np.zeros(shape=(repeats,), dtype="int")
@@ -61,8 +78,12 @@ def run_main_n_times(repeats: int, plot_stats: bool = True, filepath: str = "pre
 if __name__ == "__main__":
     warnings.filterwarnings("ignore")
     start_time = time.perf_counter()
-    # main(filepath="myinput_300.txt")
-    run_main_n_times(repeats=20, plot_stats=True, filepath="myinput_300.txt")
+    # input_file: str = "prety.txt"
+    input_file: str = "inputs/myinput_300.txt"
+
+    main(filepath=input_file)
+    # run_main_n_times(repeats=10, filepath=input_file, plot_stats=True)
+
     end_time = time.perf_counter()
     print(f"Program executed in {(end_time - start_time):.3f} seconds")
     plt.show()
